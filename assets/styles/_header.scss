@@ -1,0 +1,32 @@
+header {
+  display: flex;
+  position: fixed;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100vw;
+  height: 10vh;
+
+  padding: 1rem 2rem;
+
+  background-color: orange;
+
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    height: inherit;
+
+    img {
+      height: inherit;
+    }
+  }
+
+  nav {
+    ul {
+      display: flex;
+      gap: 1rem;
+    }
+  }
+}
