@@ -4,7 +4,7 @@
       "id": 1,
       "title": "teste1",
       "imagem": "https://media.istockphoto.com/id/1493482723/pt/foto/rice-beans-grilled-chicken-steak-salad.jpg?s=612x612&w=0&k=20&c=vRfHmxp7BIOoMf529VtyXGW-Dd7tIWDk4fkFJOI-EoU=",
-      "ingredientes": ["igrediente1", "igrediente2"],
+      "ingredientes": "ingrediente",
       "modoDePreparo": "modo de preparo",
       "tempoDePreparo": 99
     },
