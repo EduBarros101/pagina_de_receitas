@@ -2,7 +2,7 @@
   "receitas": [
     {
       "id": 1,
-      "titulo": "teste1",
+      "name": "teste1",
       "imagem": "https://media.istockphoto.com/id/1493482723/pt/foto/rice-beans-grilled-chicken-steak-salad.jpg?s=612x612&w=0&k=20&c=vRfHmxp7BIOoMf529VtyXGW-Dd7tIWDk4fkFJOI-EoU=",
       "igredientes": ["igrediente1", "igrediente2"],
       "modoDePreparo": "modo de preparo",
@@ -10,7 +10,7 @@
     },
     {
       "id": 2,
-      "titulo": "teste2",
+      "name": "teste2",
       "imagem": "https://t3.ftcdn.net/jpg/04/57/73/82/360_F_457738290_y8fywtzTyfT2pQzU5mL1OpKHHAERc6kS.jpg",
       "igredientes": ["igrediente1", "igrediente2"],
       "modoDePreparo": "modo de preparo",
