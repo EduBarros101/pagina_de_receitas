@@ -9,5 +9,6 @@ main {
   section {
     max-width: 90vw;
     display: flex;
+    flex-direction: column;
   }
 }
