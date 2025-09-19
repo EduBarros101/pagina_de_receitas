@@ -1,0 +1,9 @@
+#recipes-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  #cards-container {
+    display: flex;
+  }
+}
