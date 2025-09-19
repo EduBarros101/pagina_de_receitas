@@ -4,6 +4,16 @@
   align-items: center;
 
   #cards-container {
-    display: flex;
+    display: grid;
+
+    gap: 2rem;
+    padding: 2rem;
+
+    max-width: 62.5rem;
+    margin: auto;
+
+    img {
+      width: 100%;
+    }
   }
 }

@@ -42,7 +42,14 @@ main section {
   align-items: center;
 }
 #recipes-list #cards-container {
-  display: flex;
+  display: grid;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 62.5rem;
+  margin: auto;
+}
+#recipes-list #cards-container img {
+  width: 100%;
 }
 
 footer {
@@ -76,6 +83,16 @@ footer ul {
   gap: 1rem;
 }
 
+@media screen and (min-width: 768px) {
+  #cards-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media screen and (min-width: 1024px) {
+  #cards-container {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
 * {
   margin: 0;
   padding: 0%;
