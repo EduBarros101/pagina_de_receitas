@@ -26,9 +26,11 @@
 
     <main id="receitas">
       <section>
-        <h2>Lista de Receitas</h2>
+        <div id="recipes-list">
+          <h2>Lista de Receitas</h2>
 
-        <div id="cards-container"></div>
+          <div id="cards-container"></div>
+        </div>
 
         <form action="#" id="card-form">
           <div id="form-group">
@@ -55,12 +57,23 @@
 
           <div id="form-group">
             <label for="ingredients">Ingredientes:</label>
-            <input type="text" name="ingredients" id="ingredients" required />
+            <input
+              type="text"
+              name="ingredients"
+              id="ingredients"
+              placeholder="Digite a lista de igredientes necessários"
+              required
+            />
           </div>
 
           <div id="form-group">
             <label for="prep-time">Tempo de Preparo (minutos):</label>
-            <input type="number" name="prep-time" id="prep-time" />
+            <input
+              type="number"
+              name="prep-time"
+              id="prep-time"
+              placeholder="Quantidade de minutos"
+            />
           </div>
 
           <div id="form-group">
