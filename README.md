@@ -1,1 +1,3 @@
-# Projeto criado para a Trilha de WordPress da Mosten
+# Página de Receitas
+
+## Projeto criado para estudos da Trilha de WordPress da Mosten
