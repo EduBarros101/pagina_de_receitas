@@ -1,5 +1,5 @@
 function comments() {
-  console.log('testando');
+  console.log('teste');
 }
 
-export default comments();
+export default comments;
