@@ -1,14 +1,31 @@
 const commentForm = document.querySelector('#comment-form');
 const commentArea = document.querySelector('#comment');
+let commentPost = document.querySelector('#comments');
 
-const commentPost = document.getElementById('comments');
+function comments() {
+  // Verificar a implementação da verificação.
 
-console.log(commentArea);
+  commentForm.addEventListener('submit', function (e) {
+    e.preventDefault();
 
-function comments(teste) {
-  if (!commentForm || !commentArea || !commentPost) return;
+    console.log('testando dentro da função');
 
-  console.log(teste);
+    let user = 'fulano';
+    let comment = commentArea.value;
+
+    let templateHTML = `
+      <div>
+        <h4>${user}</h4>
+        <p>${comment}</p>
+      </div>
+    `;
+
+    commentPost.innerHTML += templateHTML;
+
+    commentArea.value = '';
+  });
+
+  console.log('testando o final da função');
 }
 
 export default comments;
