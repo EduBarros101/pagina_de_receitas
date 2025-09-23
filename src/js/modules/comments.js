@@ -1,13 +1,14 @@
 const commentForm = document.querySelector('#comment-form');
 const commentArea = document.querySelector('#comment');
-const commentValue = commentArea.value;
 
 const commentPost = document.getElementById('comments');
 
-console.log(commentValue);
+console.log(commentArea);
 
-function comments() {
-  console.log();
+function comments(teste) {
+  if (!commentForm || !commentArea || !commentPost) return;
+
+  console.log(teste);
 }
 
 export default comments;
