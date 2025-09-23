@@ -5,12 +5,8 @@ let commentPost = document.querySelector('#comments');
 function comments() {
   if (!commentPost || !commentArea || !commentForm) return;
 
-  console.log('depois da verificação');
-
   commentForm.addEventListener('submit', function (e) {
     e.preventDefault();
-
-    console.log('testando dentro da função');
 
     let user = 'fulano';
     let comment = commentArea.value;
@@ -26,8 +22,6 @@ function comments() {
 
     commentArea.value = '';
   });
-
-  console.log('testando o final da função');
 }
 
 export default comments;
