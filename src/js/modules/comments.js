@@ -3,7 +3,9 @@ const commentArea = document.querySelector('#comment');
 let commentPost = document.querySelector('#comments');
 
 function comments() {
-  // Verificar a implementação da verificação.
+  if (!commentPost || !commentArea || !commentForm) return;
+
+  console.log('depois da verificação');
 
   commentForm.addEventListener('submit', function (e) {
     e.preventDefault();
