@@ -4,7 +4,6 @@ let counter = 0;
 
 function like() {
   likeButton.addEventListener('click', () => {
-    console.log('teste');
     ++counter;
 
     likeCounter.innerHTML = counter;
