@@ -1,6 +1,6 @@
 const commentForm = document.querySelector('#comment-form');
 const commentArea = document.querySelector('#comment');
-let commentPost = document.querySelector('#comments');
+const commentPost = document.querySelector('#comments');
 
 function comments() {
   if (!commentPost || !commentArea || !commentForm) return;
