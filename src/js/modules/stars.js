@@ -11,8 +11,6 @@ function createStars() {
     `;
 
     commentStarsContainer.innerHTML += templateBlackStar;
-
-    console.log(templateBlackStar);
   }
 }
 
