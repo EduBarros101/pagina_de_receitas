@@ -23,6 +23,7 @@ function createStars() {
 
       starsArray.forEach((star, currentIndex) => {
         if (currentIndex <= clickedIndex) {
+          // alterar a classe para chamar a cor via JS
           star.style.color = '#ffd43b';
         } else {
           star.style.color = '#000000';

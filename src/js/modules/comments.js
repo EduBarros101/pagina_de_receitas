@@ -6,6 +6,7 @@ function comments() {
   if (!commentPost || !commentArea || !commentForm) return;
 
   commentForm.addEventListener('submit', function (e) {
+    // validar os comentários
     e.preventDefault();
 
     let user = 'fulano';
