@@ -15,30 +15,30 @@ $dsn = "mysql:host={$host};dbname={$dbname};charset={$charset}";
 
 try {
     $pdo = new PDO($dsn, $user, $pass);
-
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    $stmt = $pdo->prepare('select * from receitas');
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // $result = $pdo->query('select * from receitas')->fetchAll(PDO::FETCH_ASSOC);
+    echo "<pre>";
+    print_r($result);
+    echo "</pre>";
 
-    // echo "<pre>";
-    // print_r($result);
-    // echo "</pre>";
+    echo "conexão bem sucedida.";
+    echo "<br>";
+    echo "<br>";
 
-    // echo "conexão bem sucedida.";
-    // echo "<br>";
-    // echo "<br>";
+    foreach ($result as $receita) {
 
-    // foreach ($result as $receita) {
-
-    //     echo "id: {$receita['id_receita']}.";
-    //     echo "<br>";
-    //     echo "nome: " . $receita['nm_receita'];
-    //     echo "<br>";
-    //     echo "id: " . $receita['descricao'];
-    //     echo "<br>";
-    //     echo "<br>";
-    // }
+        echo "id: {$receita['id_receita']}.";
+        echo "<br>";
+        echo "nome: " . $receita['nm_receita'];
+        echo "<br>";
+        echo "id: " . $receita['descricao'];
+        echo "<br>";
+        echo "<br>";
+    }
 } catch (PDOException $e) {
 
     die("Erro de conexão com o Banco de Dados: {$e->getMessage()}");
