@@ -39,6 +39,8 @@ try {
     //     echo "<br>";
     //     echo "<br>";
     // }
+
+    return $pdo;
 } catch (PDOException $e) {
 
     die("Erro de conexão com o Banco de Dados: {$e->getMessage()}");
