@@ -2,7 +2,10 @@
 
 require_once './src/config/conn.php';
 
-$result = $pdo;
+$stmt = $pdo->prepare('select * from receitas');
+$stmt->execute();
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 $pdo = null;
 
 ?>
@@ -42,32 +45,20 @@ $pdo = null;
         <p>Lista de Receitas</p>
 
         <div id="cards-container">
-          <div id="recipe-card">
-            <img
-              src="https://media.istockphoto.com/id/1493482723/pt/foto/rice-beans-grilled-chicken-steak-salad.jpg?s=612x612&w=0&k=20&c=vRfHmxp7BIOoMf529VtyXGW-Dd7tIWDk4fkFJOI-EoU="
-              alt="imagem da receita" />
 
-            <p>Receita 1</p>
-            <button><a href="./src/views/recipe.html">Detalhes</a></button>
-          </div>
 
-          <div id="recipe-card">
-            <img
-              src="https://t3.ftcdn.net/jpg/04/57/73/82/360_F_457738290_y8fywtzTyfT2pQzU5mL1OpKHHAERc6kS.jpg"
-              alt="imagem da receita" />
 
-            <p>Receita 2</p>
-            <button><a href="./src/views/recipe.html">Detalhes</a></button>
-          </div>
+          <?php foreach ($result as $receita): ?>
 
-          <div id="recipe-card">
-            <img
-              src="https://img.taste.com.au/usDoXvoa/taste/2018/01/healthy-chicken-chow-mein-134805-1.jpg"
-              alt="imagem da receita" />
+            <div id="recipe-card" data-idReceita="<?= $receita['id_receita'] ?>">
+              <img src="<?= $receita['url_imagem'] ?>"
+                alt="imagem da receita" />
 
-            <p>Receita 3</p>
-            <button><a href="./src/views/recipe.html">Detalhes</a></button>
-          </div>
+              <p><?= $receita['nm_receita'] ?></p>
+              <button><a href="./src/views/recipe.php?id=<?= $receita['id_receita'] ?>">Detalhes</a></button>
+            </div>
+
+          <?php endforeach; ?>
         </div>
       </div>
     </section>
