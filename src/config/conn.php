@@ -17,29 +17,6 @@ try {
     $pdo = new PDO($dsn, $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // $stmt = $pdo->prepare('select * from receitas');
-    // $stmt->execute();
-    // $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    // echo "<pre>";
-    // print_r($result);
-    // echo "</pre>";
-
-    // echo "conexão bem sucedida.";
-    // echo "<br>";
-    // echo "<br>";
-
-    // foreach ($result as $receita) {
-
-    //     echo "id: {$receita['id_receita']}.";
-    //     echo "<br>";
-    //     echo "nome: " . $receita['nm_receita'];
-    //     echo "<br>";
-    //     echo "id: " . $receita['descricao'];
-    //     echo "<br>";
-    //     echo "<br>";
-    // }
-
     return $pdo;
 } catch (PDOException $e) {
 
