@@ -1,10 +1,14 @@
 <?php
 
-require_once './src/config/conn.php';
+$pdo = require_once './src/config/conn.php';
 
-$stmt = $pdo->prepare('select * from receitas');
+$stmt = $pdo->prepare('SELECT * FROM receitas');
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// echo "<pre>";
+// print_r($result);
+// echo "</pre>";
 
 $pdo = null;
 
@@ -46,15 +50,13 @@ $pdo = null;
 
         <div id="cards-container">
 
-
-
           <?php foreach ($result as $receita): ?>
 
             <div id="recipe-card" data-idReceita="<?= $receita['id_receita'] ?>">
               <img src="<?= $receita['url_imagem'] ?>"
                 alt="imagem da receita" />
 
-              <p><?= $receita['nm_receita'] ?></p>
+              <h4><?= $receita['nm_receita'] ?></h4>
               <button><a href="./src/views/recipe.php?id=<?= $receita['id_receita'] ?>">Detalhes</a></button>
             </div>
 

@@ -1,14 +1,60 @@
 <?php
 
-require_once '../config/conn.php';
+$pdo = require_once '../../src/config/conn.php';
 
-$idSanitized = htmlspecialchars($_GET['id']);
+$recipe_data = [];
+$ingredients = [];
 
-$stmt = $pdo->prepare('select * from receitas where id_receita = :id');
-$stmt->execute(['id' => $idSanitized]);
-$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+if (isset($_GET['id']) && !empty($_GET['id'])) {
+  $id_receita = htmlspecialchars($_GET['id']);
 
-$pdo = null;
+  $sql1 = 'SELECT r.nm_receita, i.nm_ingrediente, i.qt_ingrediente, i.un_ingrediente
+          FROM receitas r
+          JOIN ingredientes i ON r.id_receita = i.id_receita
+          JOIN modo_preparo mp ON r.id_receita = mp.id_receita
+          WHERE r.id_receita = :id;';
+
+  $sql2 = 'SELECT mp.txt_orientacao
+          FROM modo_preparo mp
+          JOIN receitas r ON mp.id_receita = r.id_receita
+          WHERE mp.id_receita = :id;';
+
+  $stmt1 = $pdo->prepare($sql1);
+  $stmt1->execute([
+    'id' => $id_receita
+  ]);
+
+  $stmt2 = $pdo->prepare($sql2);
+  $stmt2->execute([
+    'id' => $id_receita
+  ]);
+
+  $result1 = $stmt1->fetchAll(PDO::FETCH_ASSOC);
+  $result2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
+  // for ($i = 0; $i < count($result); $i++) {
+
+  //   array_push($recipe_data, $result[nm_receita]);
+
+  // }
+
+  if ($result1 && $result2) {
+
+    echo "Resultado 1:";
+    echo "<pre>";
+    print_r($result1);
+    echo "</pre>";
+
+    echo "Resultado 2:";
+    echo "<pre>";
+    print_r($result2);
+    echo "</pre>";
+  } else {
+    echo 'Não veio nada';
+  }
+
+  $pdo = null;
+}
 
 ?>
 
