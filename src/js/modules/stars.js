@@ -15,8 +15,6 @@ function createStars() {
 
   const starsArray = commentStarsContainer.querySelectorAll('i');
 
-  console.log(starsArray);
-
   starsArray.forEach((clickedStar) => {
     clickedStar.addEventListener('click', () => {
       const clickedIndex = parseInt(clickedStar.dataset.index);
