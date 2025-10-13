@@ -66,8 +66,8 @@ main section {
 #recipe-wrap #recipe-card img {
   -o-object-fit: cover;
      object-fit: cover;
-  -o-object-position: center bottom;
-     object-position: center bottom;
+  -o-object-position: center;
+     object-position: center;
   max-height: 500px;
 }
 #recipe-wrap #recipe-card #like-button {
