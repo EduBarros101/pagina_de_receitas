@@ -6,10 +6,6 @@ $stmt = $pdo->prepare('SELECT * FROM receitas');
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// echo "<pre>";
-// print_r($result);
-// echo "</pre>";
-
 $pdo = null;
 
 ?>
