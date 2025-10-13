@@ -74,6 +74,8 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     // echo "<pre>";
     // print_r($commentsArray);
     // echo "</pre>";
+
+    echo $recipeArray[0]['qtd_curtidas'];
   } else {
     echo 'Não veio nada';
   }
@@ -126,9 +128,11 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
             alt="imagem da receita" />
 
           <button id="like-button">
-            <i class="fa-regular fa-thumbs-up"></i>
 
-            <span id="like-counter">0</span>
+            <i class="fa-regular fa-thumbs-up"></i>
+            <span id="like-counter">
+              <?= $recipeArray[0]['qtd_curtidas'] ?>
+            </span>
           </button>
 
           <div id="recipe-ingredients">
