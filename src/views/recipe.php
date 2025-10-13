@@ -2,53 +2,78 @@
 
 $pdo = require_once '../../src/config/conn.php';
 
-$recipe_data = [];
-$ingredients = [];
+$recipeArray = [];
+$ingredientsArray = [];
+$prepModeArray = [];
+$commentsArray = [];
 
 if (isset($_GET['id']) && !empty($_GET['id'])) {
   $id_receita = htmlspecialchars($_GET['id']);
 
-  $sql1 = 'SELECT r.nm_receita, i.nm_ingrediente, i.qt_ingrediente, i.un_ingrediente
-          FROM receitas r
-          JOIN ingredientes i ON r.id_receita = i.id_receita
-          JOIN modo_preparo mp ON r.id_receita = mp.id_receita
-          WHERE r.id_receita = :id;';
+  $recipe = 'SELECT * FROM receitas r
+              WHERE r.id_receita = :id;';
 
-  $sql2 = 'SELECT mp.txt_orientacao
-          FROM modo_preparo mp
-          JOIN receitas r ON mp.id_receita = r.id_receita
-          WHERE mp.id_receita = :id;';
+  $ingredients = 'SELECT i.nm_ingrediente, i.qt_ingrediente, i.un_ingrediente
+                  FROM receitas r
+                  JOIN ingredientes i ON r.id_receita = i.id_receita
+                  WHERE r.id_receita = :id;';
 
-  $stmt1 = $pdo->prepare($sql1);
+  $prepMode = 'SELECT mp.txt_orientacao, mp.nr_ordem
+              FROM modo_preparo mp
+              JOIN receitas r ON mp.id_receita = r.id_receita
+              WHERE mp.id_receita = :id
+              ORDER BY mp.nr_ordem;';
+
+  $comments = 'SELECT * from comentarios c
+              WHERE c.id_receita = :id;';
+
+  // it looks like I could take it all into a function. Gotta get back here latter to refactor. I'm more interested about having it all rendered properly right now.
+
+  $stmt1 = $pdo->prepare($recipe);
   $stmt1->execute([
-    'id' => $id_receita
+    ':id' => $id_receita
   ]);
 
-  $stmt2 = $pdo->prepare($sql2);
+  $stmt2 = $pdo->prepare($ingredients);
   $stmt2->execute([
     'id' => $id_receita
   ]);
 
-  $result1 = $stmt1->fetchAll(PDO::FETCH_ASSOC);
-  $result2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+  $stmt3 = $pdo->prepare($prepMode);
+  $stmt3->execute([
+    'id' => $id_receita
+  ]);
 
-  // for ($i = 0; $i < count($result); $i++) {
+  $stmt4 = $pdo->prepare($comments);
+  $stmt4->execute([
+    'id' => $id_receita
+  ]);
 
-  //   array_push($recipe_data, $result[nm_receita]);
+  $recipeArray = $stmt1->fetchAll(PDO::FETCH_ASSOC);
+  $ingredientsArray = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+  $prepModeArray = $stmt3->fetchAll(PDO::FETCH_ASSOC);
+  $commentsArray = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
-  // }
+  if ($recipeArray && $ingredientsArray && $prepModeArray) {
+    // echo "Receita:";
+    // echo "<pre>";
+    // print_r($recipeArray);
+    // echo "</pre>";
 
-  if ($result1 && $result2) {
+    // echo "Ingredientes:";
+    // echo "<pre>";
+    // print_r($ingredientsArray);
+    // echo "</pre>";
 
-    echo "Resultado 1:";
-    echo "<pre>";
-    print_r($result1);
-    echo "</pre>";
+    // echo "Modo de Preparo:";
+    // echo "<pre>";
+    // print_r($prepModeArray);
+    // echo "</pre>";
 
-    echo "Resultado 2:";
-    echo "<pre>";
-    print_r($result2);
-    echo "</pre>";
+    // echo "Comentários:";
+    // echo "<pre>";
+    // print_r($commentsArray);
+    // echo "</pre>";
   } else {
     echo 'Não veio nada';
   }
@@ -93,10 +118,11 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     <section>
       <div id="recipe-wrap">
         <div id="recipe-card">
-          <h2>Receita 1</h2>
+          <h2><?= $recipeArray[0]['nm_receita'] ?></h2>
 
           <img
-            src="https://media.istockphoto.com/id/1493482723/pt/foto/rice-beans-grilled-chicken-steak-salad.jpg?s=612x612&w=0&k=20&c=vRfHmxp7BIOoMf529VtyXGW-Dd7tIWDk4fkFJOI-EoU="
+
+            src=<?= $recipeArray[0]['url_imagem'] ?>
             alt="imagem da receita" />
 
           <button id="like-button">
@@ -108,29 +134,33 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
           <div id="recipe-ingredients">
             <h3>Ingredientes:</h3>
             <ul>
-              <li>Ingrediente1</li>
-              <li>Ingrediente2</li>
-              <li>Ingrediente3</li>
-              <li>Ingrediente4</li>
-              <li>Ingrediente5</li>
+
+              <?php foreach ($ingredientsArray as $ingredient): ?>
+                <li>
+                  <?= $ingredient['qt_ingrediente'] ?>
+                  <?= $ingredient['un_ingrediente'] ?>
+                  <?= $ingredient['nm_ingrediente'] ?>
+                </li>
+              <?php endforeach ?>
+
             </ul>
           </div>
 
           <div id="prep-guide">
             <h3>Modo de Preparo:</h3>
 
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Aspernatur nostrum minima debitis eius, hic aperiam blanditiis
-              rem assumenda est cupiditate architecto molestias numquam,
-              reprehenderit, fugiat saepe veniam dignissimos earum maxime!
-            </p>
+            <ul>
+              <?php foreach ($prepModeArray as $howTo): ?>
+                <li><?= $howTo['txt_orientacao'] ?></li>
+              <?php endforeach ?>
+            </ul>
+
           </div>
 
           <div id="prep-time">
             <h3>Tempo de preparo:</h3>
 
-            <p><span id="prep-time-slot">00</span> minutos.</p>
+            <p><span id="prep-time-slot"><?= $recipeArray[0]['tmp_preparo'] ?></span> minutos.</p>
           </div>
         </div>
 
@@ -148,7 +178,16 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
           <div id="comments-section">
             <h3>Comantários:</h3>
 
-            <div id="comments"></div>
+            <div id="comments">
+              <?php foreach ($commentsArray as $comment): ?>
+
+                <div>
+                  <h4>Fulano da Silva</h4>
+                  <p><?= $comment['txt_comentario'] ?></p>
+                </div>
+
+              <?php endforeach ?>
+            </div>
           </div>
         </div>
       </div>
