@@ -2,26 +2,58 @@ const commentForm = document.querySelector('#comment-form');
 const commentArea = document.querySelector('#comment');
 const commentPost = document.querySelector('#comments');
 
+function renderComments(comment) {
+  const templateHTML = `
+    <div>
+      <h4>Usuário Anônimo</h4>
+      <p>${comment.txt_comentario}</p>
+    </div>
+  `;
+
+  commentPost.insertAdjacentHTML('afterbegin', templateHTML);
+}
+
 function comments() {
   if (!commentPost || !commentArea || !commentForm) return;
 
   commentForm.addEventListener('submit', function (e) {
-    // validar os comentários
     e.preventDefault();
 
-    let user = 'fulano';
-    let comment = commentArea.value;
+    const commentText = commentArea.value;
+    const recipeId = new URLSearchParams(window.location.search).get('id');
 
-    let templateHTML = `
-      <div>
-        <h4>${user}</h4>
-        <p>${comment}</p>
-      </div>
-    `;
+    // Para não receber comentários vazios. Posso pensar em algo mais visual para o usuário em outro momento.
+    if (!commentText.trim() || !recipeId) return;
 
-    commentPost.insertAdjacentHTML('afterbegin', templateHTML);
+    const commentData = {
+      comment: commentText,
+      recipeId: recipeId,
+      avaliacao: 3,
+    };
 
-    commentArea.value = '';
+    fetch('../api/api.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(commentData),
+      // });
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('A resposta da rede não foi OK');
+        }
+        return response.json();
+      })
+      .then((newComment) => {
+        renderComments(newComment);
+
+        commentArea.value = '';
+      })
+      .catch((error) => {
+        console.error('Erro ao enviar comentário: ', error);
+        alert('Não foi possível enviar seu comentário. Tente novamente.');
+      });
   });
 }
 
