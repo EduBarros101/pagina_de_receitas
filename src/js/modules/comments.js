@@ -5,7 +5,7 @@ const commentPost = document.querySelector('#comments');
 function renderComments(comment) {
   const templateHTML = `
     <div>
-      <h4>Usuário Anônimo</h4>
+      <h4>Fulano da Silva</h4>
       <p>${comment.txt_comentario}</p>
     </div>
   `;
