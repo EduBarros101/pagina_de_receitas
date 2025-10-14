@@ -19,7 +19,7 @@ function comments() {
       </div>
     `;
 
-    commentPost.innerHTML += templateHTML;
+    commentPost.insertAdjacentHTML('afterbegin', templateHTML);
 
     commentArea.value = '';
   });
