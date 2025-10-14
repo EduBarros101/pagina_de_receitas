@@ -1,6 +1,7 @@
 const commentForm = document.querySelector('#comment-form');
 const commentArea = document.querySelector('#comment');
 const commentPost = document.querySelector('#comments');
+const formButtom = document.querySelector('#form-buttom');
 
 function renderComments(comment) {
   const templateHTML = `
@@ -18,6 +19,7 @@ function comments() {
 
   commentForm.addEventListener('submit', function (e) {
     e.preventDefault();
+    const avaliacao = Number(formButtom.getAttribute('data-btnid'));
 
     const commentText = commentArea.value;
     const recipeId = new URLSearchParams(window.location.search).get('id');
@@ -28,7 +30,7 @@ function comments() {
     const commentData = {
       comment: commentText,
       recipeId: recipeId,
-      avaliacao: 3,
+      avaliacao: avaliacao,
     };
 
     fetch('../api/api.php', {

@@ -180,7 +180,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
             <textarea name="comment" id="comment"></textarea>
 
-            <button type="submit">Enviar</button>
+            <button id="form-buttom" type="submit">Enviar</button>
           </form>
 
           <div id="comments-section">
