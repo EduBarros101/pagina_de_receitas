@@ -10,22 +10,26 @@ $commentsArray = [];
 if (isset($_GET['id']) && !empty($_GET['id'])) {
   $id_receita = htmlspecialchars($_GET['id']);
 
-  $recipe = 'SELECT * FROM receitas r
-              WHERE r.id_receita = :id;';
+  $recipe =
+    'SELECT * FROM receitas r
+    WHERE r.id_receita = :id;';
 
-  $ingredients = 'SELECT i.nm_ingrediente, i.qt_ingrediente, i.un_ingrediente
-                  FROM receitas r
-                  JOIN ingredientes i ON r.id_receita = i.id_receita
-                  WHERE r.id_receita = :id;';
+  $ingredients =
+    'SELECT i.nm_ingrediente, i.qt_ingrediente, i.un_ingrediente
+    FROM receitas r
+    JOIN ingredientes i ON r.id_receita = i.id_receita
+    WHERE r.id_receita = :id;';
 
-  $prepMode = 'SELECT mp.txt_orientacao, mp.nr_ordem
-              FROM modo_preparo mp
-              JOIN receitas r ON mp.id_receita = r.id_receita
-              WHERE mp.id_receita = :id
-              ORDER BY mp.nr_ordem;';
+  $prepMode =
+    'SELECT mp.txt_orientacao, mp.nr_ordem
+    FROM modo_preparo mp
+    JOIN receitas r ON mp.id_receita = r.id_receita
+    WHERE mp.id_receita = :id
+    ORDER BY mp.nr_ordem;';
 
-  $comments = 'SELECT * from comentarios c
-              WHERE c.id_receita = :id;';
+  $comments =
+    'SELECT * from comentarios c
+    WHERE c.id_receita = :id;';
 
   // it looks like I could take it all into a function. Gotta get back here latter to refactor. I'm more interested about having it all rendered properly right now.
 
@@ -75,9 +79,9 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     // print_r($commentsArray);
     // echo "</pre>";
 
-    echo $recipeArray[0]['qtd_curtidas'];
+    // echo $recipeArray[0]['qtd_curtidas'];
   } else {
-    echo 'Não veio nada';
+    header('Location: 404.php');
   }
 
   $pdo = null;
