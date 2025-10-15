@@ -70,13 +70,20 @@ main section {
      object-position: center;
   max-height: 500px;
 }
-#recipe-wrap #recipe-card #like-button {
+#recipe-wrap .like-button {
   width: 50px;
   height: 30px;
   border: 0.15rem solid;
   border-radius: 4px;
   background-color: orange;
   align-self: flex-end;
+}
+#recipe-wrap #like-button {
+  background-color: peachpuff;
+  transition: 0.5s;
+}
+#recipe-wrap #like-button:hover {
+  background-color: lightsalmon;
 }
 #recipe-wrap #comment-wrap {
   display: flex;

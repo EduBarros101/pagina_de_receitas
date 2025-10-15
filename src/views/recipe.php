@@ -105,10 +105,9 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
             src=<?= $recipeArray[0]['url_imagem'] ?>
             alt="imagem da receita" />
 
-          <button id="like-button">
-
+          <button id="like-counter" class="like-button">
             <i class="fa-regular fa-thumbs-up"></i>
-            <span id="like-counter">
+            <span>
               <?= $recipeArray[0]['qtd_curtidas'] ?>
             </span>
           </button>
@@ -150,7 +149,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
           <form action="#" id="comment-form">
             <h3>Seu Comentário:</h3>
 
-            <div>
+            <div id="stars-like-container">
               <div id="comment-stars-container"></div>
               <div id="like-container"></div>
             </div>

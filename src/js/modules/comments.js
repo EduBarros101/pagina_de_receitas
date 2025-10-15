@@ -18,6 +18,21 @@ function renderComments(comment) {
   commentPost.insertAdjacentHTML('afterbegin', templateHTML);
 }
 
+function renderLikeButton() {
+  const likeContainer = document.querySelector('#like-container');
+  if (!likeContainer) return;
+
+  const likeButtonHTML = `
+    <button id="like-button" class="like-button">
+      <i class="fa-regular fa-thumbs-up"></i>
+    </button>
+  `;
+
+  likeContainer.innerHTML = likeButtonHTML;
+}
+
+renderLikeButton();
+
 function comments() {
   if (!commentPost || !commentArea || !commentForm) return;
 

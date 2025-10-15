@@ -11,3 +11,5 @@ function like() {
 }
 
 export default like;
+
+// posso implementar um fetch para salvar as curtidas no banco de dados futuramente refatorando o código do botão de curtir que já existe na página da receita
