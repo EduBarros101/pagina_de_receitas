@@ -1,12 +1,12 @@
 const commentStarsContainer = document.querySelector(
   '#comment-stars-container'
 );
-const formButtom = document.querySelector('#form-buttom');
+const formButton = document.querySelector('#form-button');
 
 function createStars() {
   let starsQty = 5;
   let htmlString = '';
-  formButtom.setAttribute('disabled', true);
+  formButton.setAttribute('disabled', true);
 
   for (let i = 0; i < starsQty; i++) {
     htmlString += `
@@ -20,10 +20,10 @@ function createStars() {
 
   starsArray.forEach((clickedStar) => {
     clickedStar.addEventListener('click', () => {
-      formButtom.removeAttribute('disabled');
+      formButton.removeAttribute('disabled');
       const clickedIndex = parseInt(clickedStar.dataset.index);
       const starValue = clickedIndex + 1;
-      formButtom.setAttribute('data-btnid', starValue);
+      formButton.setAttribute('data-btnid', starValue);
 
       starsArray.forEach((star, currentIndex) => {
         if (currentIndex <= clickedIndex) {

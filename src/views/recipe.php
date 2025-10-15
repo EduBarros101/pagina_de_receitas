@@ -150,11 +150,14 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
           <form action="#" id="comment-form">
             <h3>Seu Comentário:</h3>
 
-            <div id="comment-stars-container"></div>
+            <div>
+              <div id="comment-stars-container"></div>
+              <div id="like-container"></div>
+            </div>
 
             <textarea name="comment" id="comment"></textarea>
 
-            <button id="form-buttom" type="submit">Enviar</button>
+            <button id="form-button" type="submit">Enviar</button>
           </form>
 
           <div id="comments-section">

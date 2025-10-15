@@ -1,7 +1,11 @@
+import createStars from './stars.js';
+
 const commentForm = document.querySelector('#comment-form');
 const commentArea = document.querySelector('#comment');
 const commentPost = document.querySelector('#comments');
-const formButtom = document.querySelector('#form-buttom');
+const formButton = document.querySelector('#form-button');
+
+createStars();
 
 function renderComments(comment) {
   const templateHTML = `
@@ -19,7 +23,7 @@ function comments() {
 
   commentForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    const avaliacao = Number(formButtom.getAttribute('data-btnid'));
+    const avaliacao = Number(formButton.getAttribute('data-btnid'));
 
     const commentText = commentArea.value;
     const recipeId = new URLSearchParams(window.location.search).get('id');
@@ -39,7 +43,6 @@ function comments() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(commentData),
-      // });
     })
       .then((response) => {
         if (!response.ok) {
