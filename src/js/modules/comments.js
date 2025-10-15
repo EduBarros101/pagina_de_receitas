@@ -1,4 +1,5 @@
 import createStars from './stars.js';
+import like from './like.js';
 
 const commentForm = document.querySelector('#comment-form');
 const commentArea = document.querySelector('#comment');
@@ -23,7 +24,7 @@ function renderLikeButton() {
   if (!likeContainer) return;
 
   const likeButtonHTML = `
-    <button id="like-button" class="like-button">
+    <button id="like-button" class="like-button" type="button">
       <i class="fa-regular fa-thumbs-up"></i>
     </button>
   `;
@@ -32,6 +33,7 @@ function renderLikeButton() {
 }
 
 renderLikeButton();
+like();
 
 function comments() {
   if (!commentPost || !commentArea || !commentForm) return;
@@ -39,17 +41,22 @@ function comments() {
   commentForm.addEventListener('submit', function (e) {
     e.preventDefault();
     const avaliacao = Number(formButton.getAttribute('data-btnid'));
-
     const commentText = commentArea.value;
     const recipeId = new URLSearchParams(window.location.search).get('id');
+    const likeButton = document.querySelector('#like-button');
+    const isLiked = likeButton ? likeButton.classList.contains('liked') : false;
 
-    // Para não receber comentários vazios. Posso pensar em algo mais visual para o usuário em outro momento.
-    if (!commentText.trim() || !recipeId) return;
+    if (!commentText.trim() || !recipeId || avaliacao === 0) {
+      alert('Não é possível enviar um comentário vazio ou sem avaliação.');
+      return;
+    }
 
     const commentData = {
+      action: 'add_comment_like',
       comment: commentText,
       recipeId: recipeId,
       avaliacao: avaliacao,
+      isLiked: isLiked,
     };
 
     fetch('../api/api.php', {
@@ -69,6 +76,25 @@ function comments() {
         renderComments(newComment);
 
         commentArea.value = '';
+        formButton.setAttribute('disabled', true);
+        const starsArray = document.querySelectorAll(
+          '#comment-stars-container i'
+        );
+        starsArray.forEach((star) => (star.style.color = '#000000'));
+
+        if (likeButton && isLiked) {
+          likeButton.click();
+        }
+
+        if (isLiked) {
+          const likeCounterSpan = document.querySelector('#like-counter span');
+
+          if (likeCounterSpan) {
+            const currentLikes = parseInt(likeCounterSpan.textContent, 10);
+
+            likeCounterSpan.textContent = currentLikes + 1;
+          }
+        }
       })
       .catch((error) => {
         console.error('Erro ao enviar comentário: ', error);

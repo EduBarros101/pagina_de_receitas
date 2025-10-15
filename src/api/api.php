@@ -11,48 +11,68 @@ $data = json_decode(file_get_contents('php://input'), true);
 // echo "</pre>";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($data['recipeId']) && isset($data['comment']) && !empty($data['comment'])) {
-        try {
-            $recipeId = $data['recipeId'];
-            $commentText = $data['comment'];
-            $avaliacao = $data['avaliacao'];
 
-            $stmt = $pdo->prepare(
-                'INSERT INTO comentarios (id_receita, txt_comentario, avaliacao)
+    if (isset($data['action']) && $data['action'] === 'add_comment_like') {
+
+        if (isset($data['recipeId'], $data['comment'], $data['avaliacao']) && !empty(trim($data['comment'])) && $data['avaliacao'] > 0) {
+
+            $pdo->beginTransaction();
+
+            try {
+                $recipeId = $data['recipeId'];
+                $commentText = $data['comment'];
+                $avaliacao = $data['avaliacao'];
+                $isLiked = isset($data['isLiked']) && $data['isLiked'] === true;
+
+                $stmt = $pdo->prepare(
+                    'INSERT INTO comentarios (id_receita, txt_comentario, avaliacao)
                 VALUES (:id_receita, :txt_comentario, :avaliacao);'
-            );
+                );
 
-            $stmt->execute(
-                [
-                    ':id_receita' => $recipeId,
-                    ':txt_comentario' => $commentText,
-                    ':avaliacao' => $avaliacao
-                ]
-            );
+                $stmt->execute(
+                    [
+                        ':id_receita' => $recipeId,
+                        ':txt_comentario' => $commentText,
+                        ':avaliacao' => $avaliacao
+                    ]
+                );
 
-            $lastId = $pdo->lastInsertId();
+                if ($isLiked) {
+                    $stmtLike = $pdo->prepare(
+                        'UPDATE receitas SET qtd_curtidas = qtd_curtidas + 1 WHERE id_receita = :id_receita;'
+                    );
 
-            $stmt = $pdo->prepare(
-                'SELECT * FROM comentarios
-                WHERE id_comentario = :id;'
-            );
+                    $stmtLike->execute(['id_receita' => $recipeId]);
+                }
 
-            $stmt->execute([
-                ':id' => $lastId
-            ]);
+                $lastId = $pdo->lastInsertId();
+                $stmt = $pdo->prepare(
+                    'SELECT * FROM comentarios 
+                    WHERE id_comentario = :id;'
+                );
+                $stmt->execute([
+                    ':id' => $lastId
+                ]);
 
-            $newComment = $stmt->fetch(PDO::FETCH_ASSOC);
+                $newComment = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            http_response_code(201);
-            echo json_encode($newComment);
-        } catch (PDOException $e) {
-            http_response_code(500);
+                $pdo->commit();
 
-            echo json_encode(['error' => 'Erro ao salvar o comentário: ' . $e->getMessage()]);
+                http_response_code(201);
+                echo json_encode($newComment);
+            } catch (PDOException $e) {
+                $pdo->rollBack();
+                http_response_code(500);
+
+                echo json_encode(['error' => 'Revertendo transação. Erro no Banco de Dados: ' . $e->getMessage()]);
+            }
+        } else {
+            http_response_code(400);
+            echo json_encode(['error' => 'Dados incompletos.']);
         }
     } else {
         http_response_code(400);
-        echo json_encode(['error' => 'Dados incompletos.']);
+        echo json_encode(['error' => 'Ação inválida.']);
     }
 } else {
     http_response_code(405);

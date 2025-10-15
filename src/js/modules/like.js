@@ -1,15 +1,19 @@
-const likeButton = document.querySelector('#like-button');
-const likeCounter = document.querySelector('#like-counter');
-let counter = 0;
-
 function like() {
-  likeButton.addEventListener('click', () => {
-    ++counter;
+  const likeButton = document.querySelector('#like-button');
+  if (!likeButton) return;
 
-    likeCounter.innerHTML = counter;
+  likeButton.addEventListener('click', () => {
+    likeButton.classList.toggle('liked');
+
+    const icon = likeButton.querySelector('i');
+    if (likeButton.classList.contains('liked')) {
+      icon.classList.replace('fa-regular', 'fa-solid');
+      likeButton.style.backgroundColor = 'orange';
+    } else {
+      icon.classList.replace('fa-solid', 'fa-regular');
+      likeButton.style.backgroundColor = 'peachpuff';
+    }
   });
 }
 
 export default like;
-
-// posso implementar um fetch para salvar as curtidas no banco de dados futuramente refatorando o código do botão de curtir que já existe na página da receita
