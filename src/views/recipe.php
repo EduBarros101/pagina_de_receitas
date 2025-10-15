@@ -58,32 +58,6 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
   $prepModeArray = $stmt3->fetchAll(PDO::FETCH_ASSOC);
   $commentsArray = $stmt4->fetchAll(PDO::FETCH_ASSOC);
 
-  if ($recipeArray && $ingredientsArray && $prepModeArray) {
-    // echo "Receita:";
-    // echo "<pre>";
-    // print_r($recipeArray);
-    // echo "</pre>";
-
-    // echo "Ingredientes:";
-    // echo "<pre>";
-    // print_r($ingredientsArray);
-    // echo "</pre>";
-
-    // echo "Modo de Preparo:";
-    // echo "<pre>";
-    // print_r($prepModeArray);
-    // echo "</pre>";
-
-    // echo "Comentários:";
-    // echo "<pre>";
-    // print_r($commentsArray);
-    // echo "</pre>";
-
-    // echo $recipeArray[0]['qtd_curtidas'];
-  } else {
-    header('Location: 404.php');
-  }
-
   $pdo = null;
 }
 
