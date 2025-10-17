@@ -6,10 +6,6 @@ require_once '../config/conn.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-// echo "<pre>";
-// print_r($data);
-// echo "</pre>";
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($data['action']) && $data['action'] === 'add_comment_like') {
@@ -37,29 +33,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ]
                 );
 
+                $lastId = $pdo->lastInsertId();
+
                 if ($isLiked) {
                     $stmtLike = $pdo->prepare(
-                        'UPDATE receitas SET qtd_curtidas = qtd_curtidas + 1 WHERE id_receita = :id_receita;'
+                        'UPDATE receitas SET qtd_curtidas = qtd_curtidas + 1
+                        WHERE id_receita = :id_receita;'
                     );
-
                     $stmtLike->execute(['id_receita' => $recipeId]);
                 }
 
-                $lastId = $pdo->lastInsertId();
-                $stmt = $pdo->prepare(
-                    'SELECT * FROM comentarios 
+                $stmtComment = $pdo->prepare(
+                    'SELECT * FROM comentarios
                     WHERE id_comentario = :id;'
                 );
-                $stmt->execute([
+                $stmtComment->execute([
                     ':id' => $lastId
                 ]);
+                $commentData = $stmtComment->fetch(PDO::FETCH_ASSOC);
 
-                $newComment = $stmt->fetch(PDO::FETCH_ASSOC);
+                $response = ['comment' => $commentData];
+
+                if ($isLiked) {
+                    $stmtLikes = $pdo->prepare(
+                        'SELECT qtd_curtidas FROM receitas
+                        WHERE id_receita = :id_receita;'
+                    );
+                    $stmtLikes->execute(['id_receita' => $recipeId]);
+                    $response['likes'] = $stmtLikes->fetchColumn();
+                }
 
                 $pdo->commit();
 
                 http_response_code(201);
-                echo json_encode($newComment);
+                echo json_encode($response);
             } catch (PDOException $e) {
                 $pdo->rollBack();
                 http_response_code(500);

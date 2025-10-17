@@ -28,8 +28,13 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     ORDER BY mp.nr_ordem;';
 
   $comments =
-    'SELECT * from comentarios c
-    WHERE c.id_receita = :id;';
+    // 'SELECT * from comentarios c
+    // WHERE c.id_receita = :id;';
+
+    'SELECT c.*, (SELECT AVG(c2.avaliacao) FROM comentarios c2
+    WHERE c2.id_receita = c.id_receita) AS media_avaliacao FROM comentarios c
+    WHERE c.id_receita = :id
+    ORDER BY c.id_comentario DESC;';
 
   // it looks like I could take it all into a function. Gotta get back here latter to refactor. I'm more interested about having it all rendered properly right now.
 
@@ -105,12 +110,20 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
             src=<?= $recipeArray[0]['url_imagem'] ?>
             alt="imagem da receita" />
 
-          <button id="like-counter" class="like-button">
-            <i class="fa-regular fa-thumbs-up"></i>
-            <span>
-              <?= $recipeArray[0]['qtd_curtidas'] ?>
-            </span>
-          </button>
+          <div id="recipe-avg-like-counter-container">
+            <div id="avg-container">
+              <h4>Média desta receita:
+                <?= round($commentsArray[0]['media_avaliacao'], 1) ?>
+              </h4>
+            </div>
+
+            <button id="like-counter" class="like-button">
+              <i class="fa-regular fa-thumbs-up"></i>
+              <span>
+                <?= $recipeArray[0]['qtd_curtidas'] ?>
+              </span>
+            </button>
+          </div>
 
           <div id="recipe-ingredients">
             <h3>Ingredientes:</h3>

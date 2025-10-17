@@ -14,6 +14,13 @@
       object-position: center;
       max-height: 500px;
     }
+
+    #recipe-avg-like-counter-container {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 1rem;
+    }
   }
 
   .like-button {

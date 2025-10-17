@@ -72,8 +72,8 @@ function comments() {
         }
         return response.json();
       })
-      .then((newComment) => {
-        renderComments(newComment);
+      .then((response) => {
+        renderComments(response.comment);
 
         commentArea.value = '';
         formButton.setAttribute('disabled', true);
@@ -83,16 +83,16 @@ function comments() {
         starsArray.forEach((star) => (star.style.color = '#000000'));
 
         if (likeButton && isLiked) {
-          likeButton.click();
+          likeButton.classList.remove('liked');
         }
 
-        if (isLiked) {
+        if (response.likes != undefined) {
           const likeCounterSpan = document.querySelector('#like-counter span');
 
           if (likeCounterSpan) {
             const currentLikes = parseInt(likeCounterSpan.textContent, 10);
 
-            likeCounterSpan.textContent = currentLikes + 1;
+            likeCounterSpan.textContent = response.likes;
           }
         }
       })
